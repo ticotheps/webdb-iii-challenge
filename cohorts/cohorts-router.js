@@ -38,4 +38,22 @@ router.get("/:id", (req, res) => {
         });
 });
 
+router.post("/", (req, res) => {
+    db("cohorts")
+        .insert(req.body)
+        .then(ids => {
+            const id = ids[0];
+
+            db("cohorts")
+                .where({ id })
+                .first()
+                .then(cohort => {
+                    res.status(201).json(cohort);
+                });
+        })
+        .catch(error => {
+            res.status(500).json(error);
+        });
+});
+
 module.exports = router;
