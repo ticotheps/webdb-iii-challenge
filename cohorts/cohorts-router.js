@@ -42,6 +42,7 @@ router.get("/:id/students", (req, res) => {
     const cohortId = req.params.id;
 
     db("students")
+        .select()
         .where({ id: cohortId })
         .then(cohortStudents => {
             res.status(200).json(cohortStudents);
