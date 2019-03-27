@@ -42,10 +42,14 @@ router.get("/:id/students", (req, res) => {
     const cohortId = req.params.id;
 
     db("students")
-        .select()
-        .where({ id: cohortId })
-        .then(cohortStudents => {
-            res.status(200).json(cohortStudents);
+        .innerJoin("cohorts", "cohorts.id", "students.cohort_id")
+        .select({
+            studentName: "students.name",
+            cohort: "cohorts.name"
+        })
+        .where({ "cohorts.id": cohortId })
+        .then(studentsInCohort => {
+            res.status(200).json(studentsInCohort);
         })
         .catch(error => {
             res.status(500).json(error);
