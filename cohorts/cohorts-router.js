@@ -28,7 +28,7 @@ router.get("/:id", (req, res) => {
 
     // retrieves a specified cohort by its id
     db("cohorts")
-        .where({ id: cohortId})
+        .where({ id: cohortId })
         .first() // this makes sure to ONLY return the FIRST matching element found
         .then(cohort => {
             res.status(200).json(cohort);
