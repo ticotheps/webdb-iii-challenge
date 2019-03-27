@@ -12,3 +12,8 @@ exports.seed = function(knex, Promise) {
       ]);
     });
 };
+
+// Seed Commands for knex
+
+// npx knex seed:make 001-cohorts
+// npx knex seed:run
