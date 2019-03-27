@@ -71,4 +71,20 @@ router.put("/:id", (req, res) => {
         });
 });
 
+router.delete("/:id", (req, res) => {
+    db("students")
+        .where({ id: req.params.id })
+        .del()
+        .then(count => {
+            if (count > 0) {
+                res.status(204).end();
+            } else {
+                res.status(404).json({ message: "Specified student could not be found" });
+            }
+        })
+        .catch(error => {
+            res.status(500).json(error);
+        })
+});
+
 module.exports = router;
