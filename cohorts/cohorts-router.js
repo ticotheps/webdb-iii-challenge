@@ -34,7 +34,20 @@ router.get("/:id", (req, res) => {
             res.status(200).json(cohort);
         })
         .catch(error => {
-            res.status(500).json(error)
+            res.status(500).json(error);
+        });
+});
+
+router.get("/:id/students", (req, res) => {
+    const cohortId = req.params.id;
+
+    db("students")
+        .where({ id: cohortId })
+        .then(cohortStudents => {
+            res.status(200).json(cohortStudents);
+        })
+        .catch(error => {
+            res.status(500).json(error);
         });
 });
 
