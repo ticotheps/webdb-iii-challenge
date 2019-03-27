@@ -13,7 +13,7 @@ const knexConfig = {
 const db = knex(knexConfig);
 
 router.get("/", (req, res) => {
-    // retrieves all records from the cohorts table
+    // retrieves all cohort records from the 'cohorts' table
     db("cohorts")
         .then(cohorts => {
             res.status(200).json(cohorts);
@@ -26,7 +26,7 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
     const cohortId = req.params.id; // this is the same thing as the desctructured version: 'const { id } = req.params'; 
 
-    // retrieves a specified cohort by its id
+    // retrieves a particular cohort record (specified by cohort id)
     db("cohorts")
         .where({ id: cohortId })
         .first() // this makes sure to ONLY return the FIRST matching element found
@@ -41,6 +41,7 @@ router.get("/:id", (req, res) => {
 router.get("/:id/students", (req, res) => {
     const cohortId = req.params.id;
 
+    // retrieves a list of all students in a particular cohort (specified by cohort's id)
     db("students")
         .innerJoin("cohorts", "cohorts.id", "students.cohort_id")
         .select({
@@ -57,6 +58,8 @@ router.get("/:id/students", (req, res) => {
 });
 
 router.post("/", (req, res) => {
+
+    // inserts a new cohort record into the 'cohorts' table
     db("cohorts")
         .insert(req.body)
         .then(ids => {
@@ -75,6 +78,8 @@ router.post("/", (req, res) => {
 });
 
 router.put("/:id", (req, res) => {
+
+    // updates a particular cohort record (specified by cohort id) in the 'cohorts' table
     db("cohorts")
         .where({ id: req.params.id })
         .update(req.body)
@@ -91,6 +96,8 @@ router.put("/:id", (req, res) => {
 });
 
 router.delete("/:id", (req, res) => {
+
+    // deletes a particular cohort record (specified by cohort id) in the 'cohorts' table
     db("cohorts")
         .where({ id: req.params.id })
         .del()

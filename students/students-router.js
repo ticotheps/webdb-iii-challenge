@@ -13,6 +13,8 @@ const knexConfig = {
 const db = knex(knexConfig);
 
 router.get("/", (req, res) => {
+
+    // retrieves all student records from the 'students' table
     db("students")
         .then(students => {
             res.status(200).json(students);
@@ -25,7 +27,7 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
     const studentId = req.params.id; // this is the same thing as the desctructured version: 'const { id } = req.params'; 
 
-    // retrieves a specified cohort by its id
+    // retrieves a particular student record (specified by student id)
     db("students")
         .where({ id: studentId })
         .first() // this makes sure to ONLY return the FIRST matching element found
@@ -38,6 +40,8 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/", (req, res) => {
+
+    // inserts a new student record into the 'students' table
     db("students")
         .insert(req.body)
         .then(ids => {
@@ -56,6 +60,8 @@ router.post("/", (req, res) => {
 });
 
 router.put("/:id", (req, res) => {
+
+    // updates a particular student record (specified by student id) in the 'students' table
     db("students")
         .where({ id: req.params.id })
         .update(req.body)
@@ -72,6 +78,8 @@ router.put("/:id", (req, res) => {
 });
 
 router.delete("/:id", (req, res) => {
+
+    // deletes a particular student record (specified by student id) in the 'students' table
     db("students")
         .where({ id: req.params.id })
         .del()
