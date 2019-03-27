@@ -37,4 +37,22 @@ router.get("/:id", (req, res) => {
         });
 });
 
+router.post("/", (req, res) => {
+    db("students")
+        .insert(req.body)
+        .then(ids => {
+            const id = ids[0];
+
+            db("students")
+                .where({ id })
+                .first()
+                .then(student => {
+                    res.status(201).json(student);
+                });
+        })
+        .catch(error => {
+            res.status(500).json(error);
+        });
+});
+
 module.exports = router;
