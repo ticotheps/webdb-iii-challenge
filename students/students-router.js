@@ -22,4 +22,19 @@ router.get("/", (req, res) => {
         });
 });
 
+router.get("/:id", (req, res) => {
+    const studentId = req.params.id; // this is the same thing as the desctructured version: 'const { id } = req.params'; 
+
+    // retrieves a specified cohort by its id
+    db("students")
+        .where({ id: studentId })
+        .first() // this makes sure to ONLY return the FIRST matching element found
+        .then(student => {
+            res.status(200).json(student);
+        })
+        .catch(error => {
+            res.status(500).json(error)
+        });
+});
+
 module.exports = router;
