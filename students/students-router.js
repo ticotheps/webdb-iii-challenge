@@ -35,7 +35,7 @@ router.get("/:id", (req, res) => {
             studentName: "students.name",
             cohort: "cohorts.name"
         })
-        .where({ "cohorts.id": studentId })
+        .where({ "students.id": studentId })
         .first() // this makes sure to ONLY return the FIRST matching element found
         .then(student => {
             res.status(200).json(student);
