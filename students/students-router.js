@@ -29,7 +29,13 @@ router.get("/:id", (req, res) => {
 
     // retrieves a particular student record (specified by student id)
     db("students")
-        .where({ id: studentId })
+        .innerJoin("cohorts", "cohorts.id", "students.cohort_id")
+        .select({
+            id: "students.id",
+            studentName: "students.name",
+            cohort: "cohorts.name"
+        })
+        .where({ "cohorts.id": studentId })
         .first() // this makes sure to ONLY return the FIRST matching element found
         .then(student => {
             res.status(200).json(student);
